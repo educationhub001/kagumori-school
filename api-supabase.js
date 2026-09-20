@@ -460,31 +460,38 @@
 
       // Create Auth user: email + password = TSC No (teacher login)
       const fullName = [row.first_name, row.middle_name, row.surname].filter(Boolean).join(' ');
-      const { error: authErr } = await sb.auth.signUp({
+      // Create Auth user: email + password = TSC No from registration
+      // IMPORTANT: In Supabase → Authentication → Providers → Email, turn OFF "Confirm email"
+      // otherwise teachers get "Email not confirmed" on login.
+      const { data: authData, error: authErr } = await sb.auth.signUp({
         email: row.email,
-        password: row.tsc_no,
+        password: String(row.tsc_no),
         options: {
-          data: { role: 'teacher', name: fullName, username: row.email }
+          data: { role: 'teacher', name: fullName, username: row.email },
+          emailRedirectTo: undefined
         }
       });
-      // signUp switches session to the new teacher — sign out so admin must re-login
+      // signUp may switch session to the new teacher — sign out so admin re-logins
       try { await sb.auth.signOut(); } catch (e) {}
       if (authErr) {
-        // Teacher row exists; auth may already exist if re-added
         const msg = authErr.message || 'Could not create login account';
         if (/already|registered|exists/i.test(msg)) {
           return {
-            message: 'Teacher added. Login already existed for this email. Sign in again as admin.',
+            message: 'Teacher record saved. Login email already registered — confirm the user in Supabase Auth (Users) if needed. Sign in again as admin.',
             needsReLogin: true
           };
         }
         return {
-          message: 'Teacher saved but login account failed: ' + msg + '. Sign in again as admin.',
+          message: 'Teacher saved but login failed: ' + msg + '. Sign in again as admin.',
           needsReLogin: true
         };
       }
+      // If project requires email confirm, user will not be able to sign in until confirmed
+      const needsConfirm = authData && authData.user && !authData.session;
       return {
-        message: 'Teacher added. Login: email + TSC No as password. Please sign in again as admin.',
+        message: needsConfirm
+          ? 'Teacher added. Confirm their email in Supabase Auth → Users (or disable Confirm email), then they can sign in with email + TSC No. Sign in again as admin.'
+          : 'Teacher added. They sign in with email + TSC No as password. Sign in again as admin.',
         needsReLogin: true
       };
     },
