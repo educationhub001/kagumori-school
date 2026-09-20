@@ -102,8 +102,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--surface);color:va
 .app{display:none;grid-template-columns:250px 1fr;min-height:100vh}
 .app.visible{display:grid}
 .login-screen.hidden{display:none}
-.sidebar{background:var(--primary-dark);padding:20px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
-.sidebar-brand{padding:0 18px 20px;border-bottom:1px solid rgba(255,255,255,0.15);margin-bottom:12px}
+.sidebar{background:var(--primary-dark);padding:16px 0 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;max-height:100dvh;overflow:hidden}
+.sidebar-brand{padding:0 16px 14px;border-bottom:1px solid rgba(255,255,255,0.15);margin-bottom:8px;flex-shrink:0}
+.sidebar-scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
 .sidebar-brand h1{font-size:1.08rem;font-weight:800;color:#ffffff;line-height:1.35}
 .sidebar-brand .user-info{margin-top:10px;padding:8px 10px;background:rgba(0,0,0,0.2);border-radius:var(--radius-sm)}
 .sidebar-brand .user-info .name{font-size:0.82rem;font-weight:600;color:#ffffff}
@@ -114,9 +115,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--surface);color:va
 .nav-item:hover{background:rgba(255,255,255,0.1);color:#ffffff}
 .nav-item.active{background:var(--primary);color:#ffffff;font-weight:550}
 .nav-item i{width:17px;height:17px;opacity:0.85}
-.nav-logout{margin-top:auto;padding:12px 20px}
-.logout-btn{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--radius-sm);color:#a8d5b5;cursor:pointer;font-size:0.84rem;border:1px solid rgba(255,255,255,0.2);background:none;font-family:inherit;width:100%}
-.logout-btn:hover{background:rgba(255,255,255,0.1);color:#ffffff}
+.nav-logout{flex-shrink:0;margin-top:0;padding:10px 14px 14px;border-top:1px solid rgba(255,255,255,0.12);background:var(--primary-dark)}
+.logout-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 12px;border-radius:var(--radius-sm);color:#fff;cursor:pointer;font-size:0.88rem;font-weight:600;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);font-family:inherit;width:100%}
+.logout-btn:hover{background:rgba(255,255,255,0.16);color:#ffffff}
 .main{padding:28px 36px;overflow-y:auto}
 .page-header{margin-bottom:28px}
 .page-header h2{font-size:1.5rem;font-weight:700;letter-spacing:-0.025em}
@@ -224,7 +225,7 @@ tr.alumni-row:hover td{background:#ffecb3 !important}
 .report-table td:first-child{text-align:left}
 .report-summary{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:var(--primary-pale);border-radius:var(--radius-sm);flex-wrap:wrap;gap:12px}
 @media print{.sidebar,.page-header,.form-actions,.table-bar,.btn,.form-grid,.locked-note{display:none!important}.app{grid-template-columns:1fr!important}.main{padding:12px}.report-card,.classlist-print,.scoresheet{border:none;box-shadow:none;padding:0;max-width:100%}.report-table th,.scoresheet table th{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
-@media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:-260px;width:250px;z-index:100}.main{padding:18px 14px}.scores-grid{grid-template-columns:1fr 1fr}.report-info{grid-template-columns:1fr}.login-box{padding:32px 24px}}
+@media(max-width:768px){.scores-grid{grid-template-columns:1fr 1fr}}
 /* Registration & learner card */
 .reg-card{background:var(--surface-raised);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:22px 24px;margin-bottom:18px}
 .reg-card h3{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:8px}
@@ -314,20 +315,40 @@ tr.alumni-row:hover td{background:#ffecb3 !important}
   .menu-toggle{display:flex}
   .app{grid-template-columns:1fr!important}
   .sidebar{
-    position:fixed!important;left:0;top:0;height:100vh;width:min(280px,85vw);
+    position:fixed!important;left:0;top:0;height:100dvh;max-height:100dvh;width:min(300px,88vw);
     z-index:120;transform:translateX(-105%);transition:transform 0.25s ease;
+    padding-top:max(12px, env(safe-area-inset-top));
+    padding-bottom:env(safe-area-inset-bottom);
   }
   .sidebar.open{transform:translateX(0)}
-  .main{padding:56px 14px 24px!important}
-  .stats-row{grid-template-columns:1fr 1fr!important}
-  .form-grid{grid-template-columns:1fr!important}
-  .table-wrap{font-size:0.78rem}
+  .sidebar-brand h1{font-size:0.95rem}
+  .nav-item{padding:11px 14px;font-size:0.9rem}
+  .nav-logout{padding:12px 14px max(14px, env(safe-area-inset-bottom))}
+  .logout-btn{padding:12px;font-size:0.92rem}
+  .main{padding:56px 12px 28px!important;padding-left:max(12px, env(safe-area-inset-left));padding-right:max(12px, env(safe-area-inset-right))}
+  .page-header{margin-bottom:18px}
+  .page-header h2{font-size:1.25rem}
+  .page-header p{font-size:0.8rem}
+  .stats-row{grid-template-columns:1fr 1fr!important;gap:10px}
+  .stat-item{padding:14px}
+  .stat-item .value{font-size:1.35rem}
+  .form-grid{grid-template-columns:1fr!important;gap:12px}
+  .form-actions{flex-direction:column;align-items:stretch}
+  .form-actions .btn{width:100%;justify-content:center}
+  .table-wrap{font-size:0.78rem;margin-left:-4px;margin-right:-4px}
   .ge-score{min-width:44px!important;min-height:40px!important}
-  .login-box{padding:28px 18px!important}
+  .login-box{padding:28px 18px!important;max-width:100%}
   .teacher-grid{grid-template-columns:1fr!important}
   .dash-charts{grid-template-columns:1fr!important}
   .report-info{grid-template-columns:1fr!important}
   .official-sign{grid-template-columns:1fr!important}
+  .modal{padding:20px 16px;max-height:92dvh}
+  .btn{min-height:42px}
+  input,select,textarea{font-size:16px!important} /* prevent iOS zoom */
+}
+@media(max-width:400px){
+  .stats-row{grid-template-columns:1fr!important}
+  .sidebar{width:min(100vw - 40px, 300px)}
 }
 
 </style>
@@ -335,21 +356,17 @@ tr.alumni-row:hover td{background:#ffecb3 !important}
 <body>
 <div class="login-screen" id="login-screen">
 <div class="login-box"><div class="school-crest"><img src="images/logo.png" alt="School Logo" style="width:80px;height:80px;object-fit:contain;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;"><h1>A.C.K Kagumori Primary<br>and Junior School</h1><p>School Management System</p></div>
-<form id="login-form"><div class="form-group"><label>Email</label><input type="email" id="login-user" required placeholder="admin@yourschool.com" autocomplete="username"></div><div class="form-group"><label>Password</label><input type="password" id="login-pass" required placeholder="Password or TSC No"></div><button type="submit" class="login-btn" id="login-btn">Sign In</button><div class="login-error" id="login-error"></div>
-<div class="login-hint" style="margin-top:16px;padding:10px 12px;background:var(--primary-pale);border-radius:8px;font-size:0.78rem;color:var(--text-secondary);line-height:1.45">
-<strong>Admin:</strong> email + password<br>
-<strong>Teacher:</strong> email + <em>TSC number</em> as password
-</div></form>
+<form id="login-form"><div class="form-group"><label>Email</label><input type="email" id="login-user" required placeholder="Email" autocomplete="username"></div><div class="form-group"><label>Password</label><input type="password" id="login-pass" required placeholder="Password"></div><button type="submit" class="login-btn" id="login-btn">Sign In</button><div class="login-error" id="login-error"></div></form>
 </div></div>
 
 <div class="app" id="app">
 <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open menu"><i data-lucide="menu" style="width:22px;height:22px"></i></button>
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <nav class="sidebar" id="sidebar"><div class="sidebar-brand"><img src="images/logo.png" alt="Logo" style="width:48px;height:48px;object-fit:contain;margin-bottom:8px;display:block;"><h1>A.C.K Kagumori Primary &amp; Junior School</h1><div class="user-info"><div class="name" id="sidebar-name">-</div><div class="role" id="sidebar-role">-</div></div></div>
-<div class="nav-section" id="nav-main"><div class="nav-label">Main</div><div class="nav-item" data-section="dashboard" data-access="admin"><i data-lucide="layout-dashboard"></i> Dashboard</div><div class="nav-item" data-section="register" data-access="admin"><i data-lucide="user-plus"></i> Registration</div><div class="nav-item" data-section="learners" data-access="admin"><i data-lucide="users"></i> All Learners</div></div>
+<div class="sidebar-scroll"><div class="nav-section" id="nav-main"><div class="nav-label">Main</div><div class="nav-item" data-section="dashboard" data-access="admin"><i data-lucide="layout-dashboard"></i> Dashboard</div><div class="nav-item" data-section="register" data-access="admin"><i data-lucide="user-plus"></i> Registration</div><div class="nav-item" data-section="learners" data-access="admin"><i data-lucide="users"></i> All Learners</div></div>
 <div class="nav-section"><div class="nav-label">Academics</div><div class="nav-item" data-section="grades" data-access="all"><i data-lucide="pencil-line"></i> Grade Entry</div><div class="nav-item" data-section="scoresheet" data-access="all"><i data-lucide="table-2"></i> Score Sheet</div><div class="nav-item" data-section="reports" data-access="all"><i data-lucide="file-text"></i> Report Cards</div><div class="nav-item" data-section="classlist" data-access="all"><i data-lucide="list"></i> Class Lists</div></div>
 <div class="nav-section" id="nav-admin"><div class="nav-label">Administration</div><div class="nav-item" data-section="teachers" data-access="admin"><i data-lucide="user-cog"></i> Teachers Management</div></div>
-<div class="nav-logout"><button class="logout-btn" id="logout-btn"><i data-lucide="log-out" style="width:16px;height:16px"></i> Sign Out</button></div></nav>
+</div><!-- /.sidebar-scroll --><div class="nav-logout"><button class="logout-btn" id="logout-btn"><i data-lucide="log-out" style="width:16px;height:16px"></i> Sign Out</button></div></nav>
 
 <main class="main" id="main-content">
 <div class="empty-msg" style="padding:80px 20px;"><h2 style="font-size:1.2rem;color:var(--text-secondary);margin-bottom:8px;">Loading...</h2><p>Connecting to server</p></div>
@@ -995,7 +1012,7 @@ function renderRegister(el){
     <h3><i data-lucide="user"></i> Father's Details <span style="font-weight:400;font-size:0.78rem;color:var(--text-muted)">(optional)</span></h3>
     <div class="form-grid" id="father-fields">
       <div class="form-group"><label>Father's Name</label><input type="text" id="r-fn-father" placeholder="Leave blank if not applicable"><div class="err" id="e-fn-father"></div></div>
-      <div class="form-group"><label>Father's Mobile (10 digits)</label><input type="tel" id="r-mb-father" placeholder="07XXXXXXXX" maxlength="10" inputmode="numeric"><div class="err" id="e-mb-father"></div></div>
+      <div class="form-group"><label>Father's mobile</label><input type="tel" id="r-mb-father" placeholder="07XXXXXXXX" maxlength="10" inputmode="numeric"><div class="err" id="e-mb-father"></div></div>
       <div class="form-group"><label>Father's ID (7 or 8 digits)</label><input type="text" id="r-id-father" placeholder="12345678" maxlength="8" inputmode="numeric"><div class="err" id="e-id-father"></div></div>
     </div>
   </div>
@@ -1003,7 +1020,7 @@ function renderRegister(el){
     <h3><i data-lucide="user"></i> Mother's Details <span style="font-weight:400;font-size:0.78rem;color:var(--text-muted)">(optional)</span></h3>
     <div class="form-grid" id="mother-fields">
       <div class="form-group"><label>Mother's Name</label><input type="text" id="r-fn-mother" placeholder="Leave blank if not applicable"><div class="err" id="e-fn-mother"></div></div>
-      <div class="form-group"><label>Mother's Mobile (10 digits)</label><input type="tel" id="r-mb-mother" placeholder="07XXXXXXXX" maxlength="10" inputmode="numeric"><div class="err" id="e-mb-mother"></div></div>
+      <div class="form-group"><label>Mother's mobile</label><input type="tel" id="r-mb-mother" placeholder="07XXXXXXXX" maxlength="10" inputmode="numeric"><div class="err" id="e-mb-mother"></div></div>
       <div class="form-group"><label>Mother's ID (7 or 8 digits)</label><input type="text" id="r-id-mother" placeholder="12345678" maxlength="8" inputmode="numeric"><div class="err" id="e-id-mother"></div></div>
     </div>
   </div>
@@ -1202,12 +1219,12 @@ window.editLearnerModal=function(id){
       <div class="form-group"><label>Class</label><select id="ed-cl">${ALL_CLASSES.map(c=>`<option ${c===l.class?'selected':''}>${c}</option>`).join('')}</select></div>
       <div class="form-group" style="grid-column:1/-1;margin-top:4px"><strong style="font-size:0.85rem;color:var(--primary)">Father's Details</strong> <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(optional)</span></div>
       <div class="form-group"><label>Father's Name</label><input id="ed-fn-father" value="${isParentNA(l.father_name)?'':(l.father_name||'').replace(/"/g,'&quot;')}"></div>
-      <div class="form-group"><label>Father's Mobile (10 digits)</label><input id="ed-mb-father" maxlength="10" inputmode="numeric" value="${isParentNA(l.father_name)?'':(l.father_mobile||'').replace(/"/g,'&quot;')}"></div>
-      <div class="form-group"><label>Father's ID (7–8 digits)</label><input id="ed-id-father" maxlength="8" inputmode="numeric" value="${isParentNA(l.father_name)?'':(l.father_id||'').replace(/"/g,'&quot;')}"></div>
+      <div class="form-group"><label>Father's mobile</label><input id="ed-mb-father" maxlength="10" inputmode="numeric" value="${isParentNA(l.father_name)?'':(l.father_mobile||'').replace(/"/g,'&quot;')}"></div>
+      <div class="form-group"><label>Father's ID</label><input id="ed-id-father" maxlength="8" inputmode="numeric" value="${isParentNA(l.father_name)?'':(l.father_id||'').replace(/"/g,'&quot;')}"></div>
       <div class="form-group" style="grid-column:1/-1;margin-top:4px"><strong style="font-size:0.85rem;color:var(--primary)">Mother's Details</strong> <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(optional)</span></div>
       <div class="form-group"><label>Mother's Name</label><input id="ed-fn-mother" value="${isParentNA(l.mother_name)?'':(l.mother_name||'').replace(/"/g,'&quot;')}"></div>
-      <div class="form-group"><label>Mother's Mobile (10 digits)</label><input id="ed-mb-mother" maxlength="10" inputmode="numeric" value="${isParentNA(l.mother_name)?'':(l.mother_mobile||'').replace(/"/g,'&quot;')}"></div>
-      <div class="form-group"><label>Mother's ID (7–8 digits)</label><input id="ed-id-mother" maxlength="8" inputmode="numeric" value="${isParentNA(l.mother_name)?'':(l.mother_id||'').replace(/"/g,'&quot;')}"></div>
+      <div class="form-group"><label>Mother's mobile</label><input id="ed-mb-mother" maxlength="10" inputmode="numeric" value="${isParentNA(l.mother_name)?'':(l.mother_mobile||'').replace(/"/g,'&quot;')}"></div>
+      <div class="form-group"><label>Mother's ID</label><input id="ed-id-mother" maxlength="8" inputmode="numeric" value="${isParentNA(l.mother_name)?'':(l.mother_id||'').replace(/"/g,'&quot;')}"></div>
       <div class="form-group" style="grid-column:1/-1;margin-top:4px"><strong style="font-size:0.85rem;color:var(--primary)">Guardian's Details</strong> <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(optional)</span></div>
       <div class="form-group"><label>Guardian's Name</label><input id="ed-fn-guardian" value="${(isParentNA(l.father_name)&&isParentNA(l.mother_name)&&l.guardian&&String(l.guardian).toUpperCase()!=='N/A'?(l.guardian||''):'').replace(/"/g,'&quot;')}"></div>
       <div class="form-group"><label>Guardian's Mobile (10 digits)</label><input id="ed-mb-guardian" maxlength="10" inputmode="numeric" value="${(isParentNA(l.father_name)&&isParentNA(l.mother_name)?(l.mobile||''):'').replace(/"/g,'&quot;')}"></div>
@@ -1393,8 +1410,8 @@ async function renderGrades(el){
     : '';
 
   el.innerHTML=`<div class="page-header"><h2>Grade Entry</h2><p>${teacherMode
-    ? 'Select class and learning area, then enter scores for that subject only'
-    : 'Select class, term, exam and year — then enter scores for the whole class'}</p></div>
+    ? 'Enter scores for your class and learning area'
+    : 'Enter scores by class, term and exam'}</p></div>
   <div class="form-grid" style="margin-bottom:16px">
     <div class="form-group"><label>Class</label><select id="g-class"><option value="">Select...</option>${ALL_CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
     ${teacherMode?`<div class="form-group"><label>Learning area *</label><select id="g-area"><option value="">Select learning area...</option>${areaOpts}</select></div>`:''}
@@ -1402,7 +1419,7 @@ async function renderGrades(el){
     <div class="form-group"><label>Exam</label><select id="g-exam"><option value="Opener">Opener</option><option value="Mid Term">Mid Term</option><option value="End Term">End Term</option></select></div>
     <div class="form-group"><label>Year</label><select id="g-year">${yearOpts()}</select></div>
   </div>
-  ${teacherMode?`<div class="locked-note" id="g-teacher-note">Choose class and learning area. Class teachers can edit all subjects for their class; auto-advance applies only to the selected learning area.</div>`:''}
+  ${teacherMode?`<div class="locked-note" id="g-teacher-note" style="display:none"></div>`:''}
   <div id="g-status" style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;min-height:20px"></div>
   <div id="g-table-wrap"></div>
   <div class="form-actions" id="g-actions" style="display:none;margin-top:16px;align-items:center;gap:12px;flex-wrap:wrap">
@@ -1580,9 +1597,9 @@ async function loadGradeEntryGrid(){
     const note=document.getElementById('g-teacher-note');
     if(note){
       if(isClassTeacherForClass){
-        note.textContent=`Class teacher for ${cls}: all subjects editable. Auto-advance only in "${teacherSubjectCode||'selected area'}". Click another subject to type manually (no auto-move).`;
+        note.style.display='block';note.textContent=`Class teacher · ${cls}` + (teacherSubjectCode?` · auto-advance: ${teacherSubjectCode}`:'');
       }else if(teacherLockedCol){
-        note.textContent=`Editing only: ${teacherSubjectCode||teacherLockedCol}. Other subjects locked. Cursor advances to the next learner after each score.`;
+        note.style.display='block';note.textContent=`Subject: ${teacherSubjectCode||teacherLockedCol}`;
       }
     }
   }
@@ -1811,7 +1828,7 @@ async function saveGradeEntry(isAuto){
 
 // ===== SCORE SHEET =====
 function renderScoresheet(el){
-  el.innerHTML=`<div class="page-header"><h2>Score Sheet</h2><p>Generate filled sheets from saved grades, or download a blank sheet for manual entry</p></div>
+  el.innerHTML=`<div class="page-header"><h2>Score Sheet</h2><p>View or download score sheets</p></div>
   <div class="form-grid" style="margin-bottom:20px">
     <div class="form-group"><label>Class</label><select id="ss-class"><option value="">Select...</option>${ALL_CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
     <div class="form-group"><label>Term</label><select id="ss-term"><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
@@ -2057,7 +2074,7 @@ function renderReportPreview(data){
       <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px">KSh (write amount)</div>
     </div>
     <div style="flex:1;min-width:200px">
-      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-muted)">Next Term Opening Date</div>
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-muted)">Next term opens</div>
       <div style="font-weight:700;margin-top:2px">${data.nextOpeningDate||'—'}</div>
     </div>
   </div>
@@ -2137,13 +2154,13 @@ async function fetchReportData(learner,term,exam,year){
 }
 
 async function renderReports(el){
-  el.innerHTML=`<div class="page-header"><h2>Report Cards</h2><p>Select class, term, exam and year — scores are tied to that exam; up to 3 latest exams appear as columns</p></div>
+  el.innerHTML=`<div class="page-header"><h2>Report Cards</h2><p>Generate learner report cards</p></div>
   <div class="form-grid" style="margin-bottom:20px">
     <div class="form-group"><label>Class</label><select id="rp-cl"><option value="">Select...</option>${ALL_CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
     <div class="form-group"><label>Term</label><select id="rp-t"><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
     <div class="form-group"><label>Exam</label><select id="rp-exam"><option value="Opener">Opener</option><option value="Mid Term">Mid Term</option><option value="End Term">End Term</option></select></div>
     <div class="form-group"><label>Year</label><select id="rp-y">${yearOpts()}</select></div>
-    <div class="form-group"><label>Next Term Opening Date</label><input type="date" id="rp-next-open"></div>
+    <div class="form-group"><label>Next term opens</label><input type="date" id="rp-next-open"></div>
   </div>
   <div id="rp-learners"></div>
   <div class="form-actions" id="rp-actions" style="display:none"><button class="btn btn-primary" id="gen-rp">Generate / Download</button></div>
@@ -2221,7 +2238,7 @@ async function renderReports(el){
 
 // ===== CLASS LISTS =====
 function renderClasslist(el){
-  el.innerHTML=`<div class="page-header"><h2>Class Lists</h2><p>ALL CAPS, alphabetical</p></div><div class="form-grid" style="margin-bottom:20px"><div class="form-group"><label>Class</label><select id="cl-cl"><option value="">Choose...</option>${ALL_CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="form-group" style="justify-content:flex-end"><button class="btn btn-primary" id="gen-cl">Generate</button></div></div><div id="cl-out"></div>`;
+  el.innerHTML=`<div class="page-header"><h2>Class Lists</h2><p></p></div><div class="form-grid" style="margin-bottom:20px"><div class="form-group"><label>Class</label><select id="cl-cl"><option value="">Choose...</option>${ALL_CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="form-group" style="justify-content:flex-end"><button class="btn btn-primary" id="gen-cl">Generate</button></div></div><div id="cl-out"></div>`;
   document.getElementById('gen-cl').addEventListener('click',()=>{
     const cls=document.getElementById('cl-cl').value;if(!cls){toast('Select class');return}
     const list=learnersCache.filter(l=>l.class===cls&&!isAlumni(l)).sort((a,b)=>(a.first_name+' '+a.last_name).localeCompare(b.first_name+' '+b.last_name));
@@ -2303,16 +2320,16 @@ function teacherFormHtml(t, opts){
     <div class="form-group"><label>First Name *</label><input id="t-fn" value="${t?t.first_name||'':''}" ${disabled}></div>
     <div class="form-group"><label>Middle Name</label><input id="t-mn" value="${t?t.middle_name||'':''}" ${disabled}></div>
     <div class="form-group"><label>Surname *</label><input id="t-sn" value="${t?t.surname||'':''}" ${disabled}></div>
-    <div class="form-group"><label>TSC No * (6–7 digits)</label><input id="t-tsc" inputmode="numeric" maxlength="7" value="${t?t.tsc_no||'':''}" ${disabled}></div>
-    <div class="form-group"><label>ID No * (8 digits)</label><input id="t-id" inputmode="numeric" maxlength="8" value="${t?t.id_no||'':''}" ${disabled}></div>
-    <div class="form-group"><label>Phone No * (10 digits)</label><input id="t-phone" inputmode="numeric" maxlength="10" value="${t?t.phone||'':''}" ${disabled}></div>
+    <div class="form-group"><label>TSC No *</label><input id="t-tsc" inputmode="numeric" maxlength="7" value="${t?t.tsc_no||'':''}" ${disabled}></div>
+    <div class="form-group"><label>ID No *</label><input id="t-id" inputmode="numeric" maxlength="8" value="${t?t.id_no||'':''}" ${disabled}></div>
+    <div class="form-group"><label>Phone *</label><input id="t-phone" inputmode="numeric" maxlength="10" value="${t?t.phone||'':''}" ${disabled}></div>
     <div class="form-group"><label>Email *</label><input id="t-email" type="email" value="${t?t.email||'':''}" ${disabled}></div>
-    <div class="form-group"><label>TSC Gmail *</label><input id="t-tsc-email" type="email" placeholder="name@gmail.com" value="${t?t.tsc_email||'':''}" ${disabled}></div>
+    <div class="form-group"><label>TSC Gmail *</label><input id="t-tsc-email" type="email" placeholder="" value="${t?t.tsc_email||'':''}" ${disabled}></div>
     <div class="form-group"><label>Gender *</label><select id="t-gender" ${disabled}><option value="">Select</option><option value="Male" ${t&&t.gender==='Male'?'selected':''}>Male</option><option value="Female" ${t&&t.gender==='Female'?'selected':''}>Female</option><option value="Other" ${t&&t.gender==='Other'?'selected':''}>Other</option></select></div>
     <div class="form-group"><label>Date of Birth *</label><input id="t-dob" type="date" value="${t&&t.date_of_birth?String(t.date_of_birth).slice(0,10):''}" ${disabled}></div>
     <div class="form-group"><label>Date Joined School *</label><input id="t-joined" type="date" value="${t&&t.date_joined?String(t.date_joined).slice(0,10):''}" ${disabled}></div>
-    <div class="form-group"><label>Bank Account No (optional, digits only)</label><input id="t-bank" inputmode="numeric" placeholder="Optional" value="${t?t.bank_acc_no||'':''}" ${disabled}></div>
-    <div class="form-group"><label>Level of education *</label>
+    <div class="form-group"><label>Bank account</label><input id="t-bank" inputmode="numeric" placeholder="" value="${t?t.bank_acc_no||'':''}" ${disabled}></div>
+    <div class="form-group"><label>Education *</label>
       <select id="t-edu" ${disabled}>
         <option value="">Select...</option>
         ${['ECDE','P1','Diploma','Degree','Masters'].map(e=>`<option value="${e}" ${t&&t.education_level===e?'selected':''}>${e}</option>`).join('')}
@@ -2327,16 +2344,16 @@ function teacherFormHtml(t, opts){
         <option value="jss" ${teachLevel==='jss'?'selected':''}>J.S.S (G7–G9)</option>
       </select>
     </div>
-    <div class="form-group"><label>Subject combination (optional)</label>
-      <input id="t-subj-comb" placeholder="e.g. Math / Science" value="${t&&t.subject_combination?(t.subject_combination||'').replace(/"/g,'&quot;'):''}" ${disabled}>
+    <div class="form-group"><label>Subject combination</label>
+      <input id="t-subj-comb" placeholder="" value="${t&&t.subject_combination?(t.subject_combination||'').replace(/"/g,'&quot;'):''}" ${disabled}>
     </div>
   </div>
   <div class="form-group" style="margin-bottom:12px"><label>Roles assigned</label><textarea id="t-roles" rows="2" ${disabled} style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:inherit;font-size:0.85rem;resize:vertical">${t?t.roles||'':''}</textarea></div>
   <div class="form-group" style="margin-bottom:12px">
-    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="t-class-teacher" ${t&&t.isClassTeacher?'checked':''} ${disabled}> This teacher is a Class Teacher</label>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="t-class-teacher" ${t&&t.isClassTeacher?'checked':''} ${disabled}> Class teacher</label>
   </div>
   <div class="form-group" id="t-class-wrap" style="margin-bottom:12px;display:${t&&t.isClassTeacher?'':'none'}"><label>Class assigned *</label><select id="t-class" ${disabled}><option value="">Select class</option>${ALL_CLASSES.map(c=>`<option value="${c}" ${t&&t.assigned_class===c?'selected':''}>${c}</option>`).join('')}</select></div>
-  <div class="form-group" style="margin-bottom:8px"><label>Learning areas taught * (1–9) — select subject &amp; class for the level taught</label>
+  <div class="form-group" style="margin-bottom:8px"><label>Learning areas *</label>
     <div id="la-list">${areasHtml}</div>
     ${readOnly?'':`<button type="button" class="btn btn-sm btn-secondary" id="la-add" style="margin-top:4px">+ Add learning area</button>`}
   </div>
@@ -2441,7 +2458,7 @@ function bindTeacherForm(editId, teachersList){
       if(!body.tscNo)msgs.push('TSC No is required');
       else if(!/^\d{6,7}$/.test(body.tscNo))msgs.push('TSC No must be 6 or 7 digits');
       if(!body.idNo)msgs.push('ID No is required');
-      else if(!/^\d{8}$/.test(body.idNo))msgs.push('ID No must be exactly 8 digits');
+      else if(!/^\d{7,8}$/.test(body.idNo))msgs.push('ID No must be 7 or 8 digits');
       if(!body.phone)msgs.push('Phone is required');
       else if(!/^\d{10}$/.test(body.phone.replace(/\s/g,'')))msgs.push('Phone must be exactly 10 digits');
       if(!body.email)msgs.push('Email is required');
@@ -2459,7 +2476,7 @@ function bindTeacherForm(editId, teachersList){
       learningAreas.forEach((a,i)=>{
         if(a.name&&!a.class)msgs.push(`Select a class for learning area "${a.name||('#'+(i+1))}"`);
         if(a.name&&!/^[a-zA-Z\s'-]+$/.test(a.name))msgs.push(`Learning area "${a.name}": letters only`);
-        if(a.name&&a.name.length>20)msgs.push(`Learning area "${a.name}" max 20 characters`);
+        
       });
       if(body.isClassTeacher&&!body.assignedClass)msgs.push('Select the class assigned for the class teacher');
       // Mark invalid fields
@@ -2469,7 +2486,7 @@ function bindTeacherForm(editId, teachersList){
       if(!body.firstName||(body.firstName&&!/^[a-zA-Z\s'-]+$/.test(body.firstName)))markInvalid(document.getElementById('t-fn'),true);
       if(!body.surname||(body.surname&&!/^[a-zA-Z\s'-]+$/.test(body.surname)))markInvalid(document.getElementById('t-sn'),true);
       if(!body.tscNo||!/^\d{6,7}$/.test(body.tscNo))markInvalid(document.getElementById('t-tsc'),true);
-      if(!body.idNo||!/^\d{8}$/.test(body.idNo))markInvalid(document.getElementById('t-id'),true);
+      if(!body.idNo||!/^\d{7,8}$/.test(body.idNo))markInvalid(document.getElementById('t-id'),true);
       if(!body.phone||!/^\d{10}$/.test(body.phone.replace(/\s/g,'')))markInvalid(document.getElementById('t-phone'),true);
       if(!body.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email))markInvalid(document.getElementById('t-email'),true);
       if(!body.tscEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.tscEmail))markInvalid(document.getElementById('t-tsc-email'),true);
@@ -2537,7 +2554,7 @@ window.viewTeacherCard=function(id, teachers){
 async function renderTeachers(el){
   try{
     const teachers=await api('/api/teachers');
-    el.innerHTML=`<div class="page-header"><h2>Teachers Management</h2><p>Register and manage teaching staff</p></div>
+    el.innerHTML=`<div class="page-header"><h2>Teachers Management</h2><p></p></div>
     <div class="form-actions" style="margin-bottom:18px"><button class="btn btn-primary" id="add-t-btn"><i data-lucide="user-plus" style="width:16px;height:16px"></i> Add Teacher</button></div>
     <div class="teacher-grid" id="teacher-grid">
     ${teachers.length?teachers.map(t=>{
