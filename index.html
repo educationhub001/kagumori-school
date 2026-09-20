@@ -278,16 +278,74 @@ tr.alumni-row:hover td{background:#ffecb3 !important}
 .dash-chart-card .chart-box.bar{height:160px}
 @media(max-width:700px){.dash-charts{grid-template-columns:1fr}}
 
+/* Teacher cards — purple & yellow */
+.teacher-card-item{
+  background:linear-gradient(135deg,#f3e5f5 0%,#fff8e1 55%,#ffffff 100%)!important;
+  border:1px solid #ce93d8!important;
+  box-shadow:0 4px 14px rgba(123,31,162,0.12);
+  position:relative;
+  overflow:hidden;
+}
+.teacher-card-item::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,#7b1fa2,#f9a825);
+}
+.teacher-avatar{background:linear-gradient(135deg,#7b1fa2,#ab47bc)!important;color:#fff!important}
+.teacher-detail-hero{
+  background:linear-gradient(135deg,#7b1fa2 0%,#9c27b0 40%,#f9a825 100%);
+  border-radius:12px;padding:18px;color:#fff;border:none!important;
+}
+.teacher-detail-hero .big-avatar{background:rgba(255,255,255,0.25)!important;color:#fff!important}
+.teacher-detail-hero .t-meta{opacity:0.95}
+
+/* Mobile nav */
+.menu-toggle{
+  display:none;position:fixed;top:12px;left:12px;z-index:200;
+  width:44px;height:44px;border:none;border-radius:10px;
+  background:var(--primary-dark);color:#fff;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-md);cursor:pointer;
+}
+.sidebar-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:99;
+}
+.sidebar-backdrop.show{display:block}
+@media(max-width:768px){
+  .menu-toggle{display:flex}
+  .app{grid-template-columns:1fr!important}
+  .sidebar{
+    position:fixed!important;left:0;top:0;height:100vh;width:min(280px,85vw);
+    z-index:120;transform:translateX(-105%);transition:transform 0.25s ease;
+  }
+  .sidebar.open{transform:translateX(0)}
+  .main{padding:56px 14px 24px!important}
+  .stats-row{grid-template-columns:1fr 1fr!important}
+  .form-grid{grid-template-columns:1fr!important}
+  .table-wrap{font-size:0.78rem}
+  .ge-score{min-width:44px!important;min-height:40px!important}
+  .login-box{padding:28px 18px!important}
+  .teacher-grid{grid-template-columns:1fr!important}
+  .dash-charts{grid-template-columns:1fr!important}
+  .report-info{grid-template-columns:1fr!important}
+  .official-sign{grid-template-columns:1fr!important}
+}
+
 </style>
 </head>
 <body>
 <div class="login-screen" id="login-screen">
-<div class="login-box"><div class="school-crest"><img src="/images/logo.png" alt="School Logo" style="width:80px;height:80px;object-fit:contain;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;"><h1>A.C.K Kagumori Primary<br>and Junior School</h1><p>School Management System</p></div>
-<form id="login-form"><div class="form-group"><label>Email</label><input type="email" id="login-user" required placeholder="admin@yourschool.com" autocomplete="username"></div><div class="form-group"><label>Password</label><input type="password" id="login-pass" required placeholder="Password"></div><button type="submit" class="login-btn" id="login-btn">Sign In</button><div class="login-error" id="login-error"></div></form>
+<div class="login-box"><div class="school-crest"><img src="images/logo.png" alt="School Logo" style="width:80px;height:80px;object-fit:contain;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;"><h1>A.C.K Kagumori Primary<br>and Junior School</h1><p>School Management System</p></div>
+<form id="login-form"><div class="form-group"><label>Email</label><input type="email" id="login-user" required placeholder="admin@yourschool.com" autocomplete="username"></div><div class="form-group"><label>Password</label><input type="password" id="login-pass" required placeholder="Password or TSC No"></div><button type="submit" class="login-btn" id="login-btn">Sign In</button><div class="login-error" id="login-error"></div>
+<div class="login-hint" style="margin-top:16px;padding:10px 12px;background:var(--primary-pale);border-radius:8px;font-size:0.78rem;color:var(--text-secondary);line-height:1.45">
+<strong>Admin:</strong> email + password<br>
+<strong>Teacher:</strong> email + <em>TSC number</em> as password
+</div></form>
 </div></div>
 
 <div class="app" id="app">
-<nav class="sidebar"><div class="sidebar-brand"><img src="/images/logo.png" alt="Logo" style="width:48px;height:48px;object-fit:contain;margin-bottom:8px;display:block;"><h1>A.C.K Kagumori Primary &amp; Junior School</h1><div class="user-info"><div class="name" id="sidebar-name">-</div><div class="role" id="sidebar-role">-</div></div></div>
+<button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open menu"><i data-lucide="menu" style="width:22px;height:22px"></i></button>
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+<nav class="sidebar" id="sidebar"><div class="sidebar-brand"><img src="images/logo.png" alt="Logo" style="width:48px;height:48px;object-fit:contain;margin-bottom:8px;display:block;"><h1>A.C.K Kagumori Primary &amp; Junior School</h1><div class="user-info"><div class="name" id="sidebar-name">-</div><div class="role" id="sidebar-role">-</div></div></div>
 <div class="nav-section" id="nav-main"><div class="nav-label">Main</div><div class="nav-item" data-section="dashboard" data-access="admin"><i data-lucide="layout-dashboard"></i> Dashboard</div><div class="nav-item" data-section="register" data-access="admin"><i data-lucide="user-plus"></i> Registration</div><div class="nav-item" data-section="learners" data-access="admin"><i data-lucide="users"></i> All Learners</div></div>
 <div class="nav-section"><div class="nav-label">Academics</div><div class="nav-item" data-section="grades" data-access="all"><i data-lucide="pencil-line"></i> Grade Entry</div><div class="nav-item" data-section="scoresheet" data-access="all"><i data-lucide="table-2"></i> Score Sheet</div><div class="nav-item" data-section="reports" data-access="all"><i data-lucide="file-text"></i> Report Cards</div><div class="nav-item" data-section="classlist" data-access="all"><i data-lucide="list"></i> Class Lists</div></div>
 <div class="nav-section" id="nav-admin"><div class="nav-label">Administration</div><div class="nav-item" data-section="teachers" data-access="admin"><i data-lucide="user-cog"></i> Teachers Management</div></div>
@@ -384,6 +442,24 @@ function getSubjectsForClass(c){
   if(l==='upper')return SUBJECTS_UPPER;
   return SUBJECTS_JSS;
 }
+function getSubjectsForLevelKey(levelKey){
+  if(levelKey==='pp')return SUBJECTS_PP;
+  if(levelKey==='lower')return SUBJECTS_LOWER;
+  if(levelKey==='upper')return SUBJECTS_UPPER;
+  if(levelKey==='jss')return SUBJECTS_JSS;
+  return SUBJECTS_JSS;
+}
+function levelKeyLabel(k){
+  return {pp:'Pre-Primary',lower:'Lower Primary',upper:'Upper Primary',jss:'J.S.S'}[k]||k;
+}
+function classesForLevelKey(k){
+  if(k==='pp')return PREPRIMARY.slice();
+  if(k==='lower')return LOWER.slice();
+  if(k==='upper')return UPPER.slice();
+  if(k==='jss')return JSS.slice();
+  return ALL_CLASSES.slice();
+}
+
 function getGrade(s){if(s>=75)return{code:'E.E',label:'Exceeding Expectation',cls:'grade-ee'};if(s>=50)return{code:'M.E',label:'Meeting Expectation',cls:'grade-me'};if(s>=25)return{code:'A.E',label:'Approaching Expectation',cls:'grade-ae'};return{code:'B.E',label:'Below Expectation',cls:'grade-be'}}
 function getOrdinal(n){const s=['th','st','nd','rd'];const v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])}
 function classOpts(){
@@ -396,7 +472,7 @@ function classOpts(){
 const SCHOOL_NAME='A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL';
 const SCHOOL_ADDRESS='P.O. BOX 526-60100 EMBU';
 const SCHOOL_MOTTO='EDUCATION FOR EXCELLENCE';
-const LOGO_PATH='/images/logo.png';
+const LOGO_PATH='images/logo.png';
 let logoBase64=null;
 
 async function loadLogoBase64(){
@@ -562,6 +638,7 @@ function askBeautifulConfirm(opts){
 
 
 function isAdmin(){return currentUser&&currentUser.role==='admin'}
+function isTeacher(){return currentUser&&currentUser.role==='teacher'}
 /** Report card / lists: father if present → else mother → else guardian → else blank */
 function displayGuardian(l){
   if(!l)return'';
@@ -634,16 +711,44 @@ document.getElementById('logout-btn').addEventListener('click',async()=>{try{awa
 function enterApp(){
   document.getElementById('login-screen').classList.add('hidden');
   document.getElementById('app').classList.add('visible');
-  document.getElementById('sidebar-name').textContent=currentUser.name;
-  document.getElementById('sidebar-role').textContent='Administrator';
-  document.getElementById('nav-main').style.display='';
-  const na=document.getElementById('nav-admin');if(na)na.style.display='';
-  navigateTo('dashboard');
+  document.getElementById('sidebar-name').textContent=currentUser.name||'-';
+  document.getElementById('sidebar-role').textContent=isAdmin()?'Administrator':'Teacher';
+  const navMain=document.getElementById('nav-main');
+  const na=document.getElementById('nav-admin');
+  if(isAdmin()){
+    if(navMain)navMain.style.display='';
+    if(na)na.style.display='';
+    navigateTo('dashboard');
+  }else{
+    // Teachers: hide registration, all learners, teacher management, promote
+    if(navMain)navMain.style.display='none';
+    if(na)na.style.display='none';
+    navigateTo('grades');
+  }
   loadLearnersCache();
+  closeMobileSidebar();
+}
+
+function closeMobileSidebar(){
+  const sb=document.getElementById('sidebar');
+  const bd=document.getElementById('sidebar-backdrop');
+  if(sb)sb.classList.remove('open');
+  if(bd)bd.classList.remove('show');
+}
+function openMobileSidebar(){
+  const sb=document.getElementById('sidebar');
+  const bd=document.getElementById('sidebar-backdrop');
+  if(sb)sb.classList.add('open');
+  if(bd)bd.classList.add('show');
 }
 
 // ===== NAV =====
-document.querySelectorAll('.nav-item[data-section]').forEach(item=>{item.addEventListener('click',()=>{if(item.dataset.access==='admin'&&!isAdmin())return;navigateTo(item.dataset.section)})});
+document.querySelectorAll('.nav-item[data-section]').forEach(item=>{item.addEventListener('click',()=>{if(item.dataset.access==='admin'&&!isAdmin())return;navigateTo(item.dataset.section);closeMobileSidebar()})});
+document.getElementById('menu-toggle')?.addEventListener('click',()=>{
+  const sb=document.getElementById('sidebar');
+  if(sb&&sb.classList.contains('open'))closeMobileSidebar();else openMobileSidebar();
+});
+document.getElementById('sidebar-backdrop')?.addEventListener('click',closeMobileSidebar);
 
 function navigateTo(section){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -659,13 +764,14 @@ async function renderSection(section){
   const main=document.getElementById('main-content');
   switch(section){
     case'dashboard':await renderDashboard(main);break;
-    case'register':renderRegister(main);break;
-    case'learners':await renderLearners(main);break;
+    case'register':if(!isAdmin()){main.innerHTML='<div class="empty-msg">Admin access required</div>';break;}renderRegister(main);break;
+    case'learners':if(!isAdmin()){main.innerHTML='<div class="empty-msg">Admin access required</div>';break;}await renderLearners(main);break;
     case'grades':await renderGrades(main);break;
     case'scoresheet':renderScoresheet(main);break;
     case'reports':await renderReports(main);break;
     case'classlist':renderClasslist(main);break;
-    case'teachers':await renderTeachers(main);break;
+        case'teachers':if(!isAdmin()){main.innerHTML='<div class="empty-msg">Admin access required</div>';break;}await renderTeachers(main);break;
+
     default:main.innerHTML='<div class="empty-msg">Select a section</div>';
   }
 }
@@ -682,7 +788,7 @@ async function renderDashboard(el){
   const recent=active.slice(-5).reverse();
   el.innerHTML=`
   <div style="background:linear-gradient(135deg,#0d3d22 0%,#1a6b3c 60%,#228b4e 100%);border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:28px;color:#fff;display:flex;align-items:center;gap:24px;flex-wrap:wrap;box-shadow:var(--shadow-md)">
-    <img src="/images/logo.png" alt="School Logo" style="width:90px;height:90px;object-fit:contain;background:#fff;border-radius:50%;padding:8px;box-shadow:0 4px 12px rgba(0,0,0,0.2)">
+    <img src="images/logo.png" alt="School Logo" style="width:90px;height:90px;object-fit:contain;background:#fff;border-radius:50%;padding:8px;box-shadow:0 4px 12px rgba(0,0,0,0.2)">
     <div style="flex:1;min-width:200px">
       <h2 style="font-size:1.7rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px">A.C.K Kagumori Primary &amp; Junior School</h2>
       <p style="font-size:1rem;font-weight:700;opacity:0.95;margin-bottom:3px">P.O. BOX 526-60100 EMBU</p>
@@ -697,7 +803,7 @@ async function renderDashboard(el){
     <input type="search" id="dash-search" placeholder="Search learner by name or Kemis No..." autocomplete="off">
     <div class="dash-search-results" id="dash-search-results"></div>
   </div>
-  <div class="promote-panel">
+  ${isAdmin()?`<div class="promote-panel">
     <h3><i data-lucide="arrow-up-circle" style="width:18px;height:18px"></i> Promote Learners to Next Class</h3>
     <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:12px">Moves all learners in the selected class up one level. Grade 9 leavers become Alumni (searchable, not counted in school totals).</p>
     <div class="promote-row">
@@ -707,7 +813,7 @@ async function renderDashboard(el){
       <button class="btn btn-primary" id="promote-btn"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Promote</button>
     </div>
     ${alumniCount?`<p style="font-size:0.78rem;color:#f57f17;margin-top:10px">${alumniCount} alumni on record (shown at bottom of Learners list, excluded from totals)</p>`:''}
-  </div>
+  </div>`:''}
   <div class="stats-row">
     <div class="stat-item" style="border-top:4px solid var(--primary)">
       <div class="label">Total Learners</div>
@@ -1258,19 +1364,45 @@ let gradeEntryDirty=false;
 let gradeEntryAutoTimer=null;
 let gradeEntryExistingIds=new Set(); // learner ids that already have grades for current filters
 
+let teacherLockedCol=null; // subject col code when teacher is locked to one learning area
+let teacherSubjectCode=null;
+
 async function renderGrades(el){
   await loadLearnersCache();
   if(gradeEntryAutoTimer){clearInterval(gradeEntryAutoTimer);gradeEntryAutoTimer=null}
   gradeEntryDirty=false;
   gradeEntryExistingIds=new Set();
+  teacherLockedCol=null;
+  teacherSubjectCode=null;
 
-  el.innerHTML=`<div class="page-header"><h2>Grade Entry</h2><p>Select class, term, exam and year — then enter scores for the whole class</p></div>
+  const teacherMode=isTeacher();
+  let teacherAreas=[];
+  window._teacherProfile=null;
+  if(teacherMode){
+    try{
+      const teachers=await api('/api/teachers');
+      const meEmail=(currentUser.email||'').toLowerCase();
+      const mine=(teachers||[]).find(t=>(t.email||'').toLowerCase()===meEmail);
+      window._teacherProfile=mine||null;
+      teacherAreas=normalizeLearningAreas(mine&&mine.learningAreas).filter(a=>a.name);
+    }catch(e){console.warn(e)}
+  }
+
+  const areaOpts=teacherAreas.length
+    ? teacherAreas.map((a,i)=>`<option value="${i}" data-name="${(a.name||'').replace(/"/g,'&quot;')}" data-class="${a.class||''}" data-code="${a.code||''}" data-col="${a.col||''}">${a.name}${a.class?' — '+a.class:''}</option>`).join('')
+    : '';
+
+  el.innerHTML=`<div class="page-header"><h2>Grade Entry</h2><p>${teacherMode
+    ? 'Select class and learning area, then enter scores for that subject only'
+    : 'Select class, term, exam and year — then enter scores for the whole class'}</p></div>
   <div class="form-grid" style="margin-bottom:16px">
     <div class="form-group"><label>Class</label><select id="g-class"><option value="">Select...</option>${ALL_CLASSES.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    ${teacherMode?`<div class="form-group"><label>Learning area *</label><select id="g-area"><option value="">Select learning area...</option>${areaOpts}</select></div>`:''}
     <div class="form-group"><label>Term</label><select id="g-term"><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
     <div class="form-group"><label>Exam</label><select id="g-exam"><option value="Opener">Opener</option><option value="Mid Term">Mid Term</option><option value="End Term">End Term</option></select></div>
     <div class="form-group"><label>Year</label><select id="g-year">${yearOpts()}</select></div>
   </div>
+  ${teacherMode?`<div class="locked-note" id="g-teacher-note">Choose class and learning area. Class teachers can edit all subjects for their class; auto-advance applies only to the selected learning area.</div>`:''}
   <div id="g-status" style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;min-height:20px"></div>
   <div id="g-table-wrap"></div>
   <div class="form-actions" id="g-actions" style="display:none;margin-top:16px;align-items:center;gap:12px;flex-wrap:wrap">
@@ -1279,13 +1411,35 @@ async function renderGrades(el){
   </div>`;
 
   const reload=()=>loadGradeEntryGrid();
-  document.getElementById('g-class').addEventListener('change',reload);
+  document.getElementById('g-class').addEventListener('change',()=>{
+    if(teacherMode){
+      const areaSel=document.getElementById('g-area');
+      const cls=document.getElementById('g-class').value;
+      // Prefer matching class from teacher's areas
+      if(areaSel&&cls){
+        const opts=[...areaSel.options];
+        const match=opts.find(o=>o.dataset&&o.dataset.class===cls);
+        if(match)areaSel.value=match.value;
+      }
+    }
+    reload();
+  });
   document.getElementById('g-term').addEventListener('change',reload);
   document.getElementById('g-exam').addEventListener('change',reload);
   document.getElementById('g-year').addEventListener('change',reload);
+  const areaEl=document.getElementById('g-area');
+  if(areaEl){
+    areaEl.addEventListener('change',()=>{
+      const opt=areaEl.selectedOptions[0];
+      if(opt&&opt.dataset.class){
+        const clsSel=document.getElementById('g-class');
+        if(clsSel&&opt.dataset.class)clsSel.value=opt.dataset.class;
+      }
+      reload();
+    });
+  }
   document.getElementById('g-save-btn').addEventListener('click',()=>saveGradeEntry(false));
 
-  // Auto-save every 20s when dirty
   gradeEntryAutoTimer=setInterval(()=>{
     if(gradeEntryDirty && document.getElementById('g-class')?.value){
       saveGradeEntry(true);
@@ -1312,6 +1466,41 @@ async function loadGradeEntryGrid(){
   }
 
   GRADE_ENTRY_SUBJECTS=getSubjectsForClass(cls);
+
+  // Teacher: lock to one learning area
+  teacherLockedCol=null;
+  teacherSubjectCode=null;
+  if(isTeacher()){
+    const areaSel=document.getElementById('g-area');
+    if(!areaSel||!areaSel.value){
+      wrap.innerHTML='<div class="empty-msg">Select a learning area to enter scores</div>';
+      actions.style.display='none';
+      status.textContent='';
+      return;
+    }
+    const opt=areaSel.selectedOptions[0];
+    const areaName=(opt&&opt.dataset.name)||opt.textContent.split('—')[0].trim();
+    const areaCode=(opt&&opt.dataset.code)||'';
+    const areaCol=(opt&&opt.dataset.col)||'';
+    // Match by col/code/name from registration
+    const match=GRADE_ENTRY_SUBJECTS.find(s=>{
+      if(areaCol&&s.col===areaCol)return true;
+      if(areaCode&&s.code===areaCode)return true;
+      const n=(s.name||'').toLowerCase();
+      const c=(s.code||'').toLowerCase();
+      const a=areaName.toLowerCase();
+      return n===a||c===a||n.includes(a)||a.includes(n)||a.includes(c);
+    });
+    if(match){
+      teacherLockedCol=match.col;
+      teacherSubjectCode=match.code;
+    }else{
+      // fallback: first subject if name is free-text — still allow if admin mapped poorly
+      wrap.innerHTML=`<div class="empty-msg">Learning area "<strong>${areaName}</strong>" does not match subjects for ${cls}. Use a name close to: ${GRADE_ENTRY_SUBJECTS.map(s=>s.name).join(', ')}</div>`;
+      actions.style.display='none';
+      return;
+    }
+  }
 
   await loadLearnersCache();
   const list=learnersCache.filter(l=>l.class===cls&&!isAlumni(l)).sort((a,b)=>(a.first_name+' '+a.last_name).localeCompare(b.first_name+' '+b.last_name));
@@ -1363,7 +1552,42 @@ async function loadGradeEntryGrid(){
   }).join('');
 
   wrap.innerHTML=`<div class="table-wrap" style="margin-top:0;overflow-x:auto"><table id="ge-table"><thead><tr><th>Learner Name</th><th>Kemis No</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
-  actions.style.display='flex';
+  
+  // Teacher column access
+  if(isTeacher()){
+    const profile=window._teacherProfile;
+    const cls=document.getElementById('g-class')?.value;
+    const isClassTeacherForClass=!!(profile&&profile.isClassTeacher&&profile.assigned_class&&profile.assigned_class===cls);
+    window._gradeClassTeacherFull=isClassTeacherForClass;
+    document.querySelectorAll('.ge-score').forEach(inp=>{
+      if(isClassTeacherForClass){
+        // Class teacher: all subjects editable for their class
+        inp.classList.remove('ge-locked');
+        inp.readOnly=false;
+        inp.tabIndex=0;
+      }else if(teacherLockedCol){
+        if(inp.dataset.col!==teacherLockedCol){
+          inp.classList.add('ge-locked');
+          inp.readOnly=true;
+          inp.tabIndex=-1;
+        }else{
+          inp.classList.remove('ge-locked');
+          inp.readOnly=false;
+          inp.tabIndex=0;
+        }
+      }
+    });
+    const note=document.getElementById('g-teacher-note');
+    if(note){
+      if(isClassTeacherForClass){
+        note.textContent=`Class teacher for ${cls}: all subjects editable. Auto-advance only in "${teacherSubjectCode||'selected area'}". Click another subject to type manually (no auto-move).`;
+      }else if(teacherLockedCol){
+        note.textContent=`Editing only: ${teacherSubjectCode||teacherLockedCol}. Other subjects locked. Cursor advances to the next learner after each score.`;
+      }
+    }
+  }
+
+actions.style.display='flex';
 
   // Bind score inputs
   wrap.querySelectorAll('.ge-score').forEach(inp=>{
@@ -1394,7 +1618,14 @@ function onGradeScoreKeydown(e){
   }
   if(e.key==='Enter'){
     e.preventDefault();
-    focusGradeCell(+e.target.dataset.r, +e.target.dataset.c+1);
+    const col=e.target.dataset.col;
+    const inHome=isTeacher()&&teacherLockedCol&&col===teacherLockedCol;
+    if(inHome){
+      focusGradeCell(+e.target.dataset.r+1, +e.target.dataset.c);
+    }else if(!isTeacher()){
+      focusGradeCell(+e.target.dataset.r, +e.target.dataset.c+1);
+    }
+    // Teacher outside selected learning area: stay (manual)
   }
 }
 
@@ -1457,7 +1688,15 @@ function onGradeScoreInput(e){
   // Auto-advance: wait if starts with 10 (may become 100)
   if(raw.startsWith('10') && raw.length < 3)return;
   if(raw.length >= 2 || raw === '100'){
-    setTimeout(()=>focusGradeCell(+inp.dataset.r, +inp.dataset.c+1), 30);
+    // Auto-advance only when editing the selected learning-area column
+    const col=inp.dataset.col;
+    const inHomeArea=teacherLockedCol&&col===teacherLockedCol;
+    if(isTeacher()&&inHomeArea){
+      setTimeout(()=>focusGradeCell(+inp.dataset.r+1, +inp.dataset.c), 30);
+    }else if(!isTeacher()){
+      setTimeout(()=>focusGradeCell(+inp.dataset.r, +inp.dataset.c+1), 30);
+    }
+    // Class teacher (or any teacher) outside home area: no auto-move — manual only
   }
 }
 
@@ -1465,6 +1704,12 @@ function focusGradeCell(r,c){
   const err=document.querySelector('.ge-score.ge-error');
   if(err){err.focus();err.select();return}
   const cols=GRADE_ENTRY_SUBJECTS.length;
+  if(isTeacher()&&teacherLockedCol){
+    if(r<0)return;
+    const next=document.querySelector(`.ge-score[data-r="${r}"][data-c="${c}"]:not(.ge-locked)`);
+    if(next){next.focus();next.select()}
+    return;
+  }
   if(c>=cols){c=0;r++}
   if(c<0){c=cols-1;r--}
   if(r<0)return;
@@ -1595,7 +1840,7 @@ function renderScoresheet(el){
       ranked.sort((a,b)=>b.total-a.total);
       for(let i=0;i<ranked.length;i++){if(i===0)ranked[i].position=1;else if(ranked[i].total===ranked[i-1].total)ranked[i].position=ranked[i-1].position;else ranked[i].position=i+1}
       const subMeans=levelSubjects.map(s=>{let sum=0,count=0;ranked.forEach(r=>{const v=Number(r[s.col]);if(!Number.isNaN(v)&&v>0){sum+=v;count++}});return count>0?(sum/count).toFixed(1):'-'});
-      document.getElementById('ss-out').innerHTML=`<div class="scoresheet"><div style="text-align:center;margin-bottom:8px"><img src="/images/logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div><h4>A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</h4><div class="ss-sub">P.O. BOX 526-60100 EMBU<br>Motto: EDUCATION FOR EXCELLENCE<br>${cls} (${getLevelLabel(cls)}) | ${exam} | ${term} ${year}</div><table><thead><tr><th>Pos</th><th>Learner Name</th>${levelSubjects.map(s=>`<th>${s.code}</th>`).join('')}<th>Total/${levelSubjects.length*100}</th><th>Mean</th><th>Grade</th></tr></thead><tbody>${ranked.map(r=>{const g=getGrade(r.mean);return`<tr><td><span class="pos-badge">${r.position}</span></td><td style="text-transform:uppercase;font-weight:600">${r.first_name} ${r.last_name}</td>${levelSubjects.map(s=>{const n=Number(r[s.col]);return `<td>${Number.isFinite(n)?(Number.isInteger(n)?n:n.toFixed(1)):'-'}</td>`}).join('')}<td style="font-weight:700">${r.total}</td><td>${r.mean}%</td><td><span class="grade-badge ${g.cls}">${g.code}</span></td></tr>`}).join('')}<tr class="mean-row"><td></td><td style="text-align:left">SUBJECT MEAN</td>${subMeans.map(m=>`<td>${m}</td>`).join('')}<td></td><td></td><td></td></tr></tbody></table>${officialSignHtml()}<div class="form-actions" style="margin-top:16px;justify-content:flex-end"><button class="btn btn-secondary" id="ss-print-btn">Print</button><button class="btn btn-primary" id="ss-pdf-btn">Download PDF</button></div></div>`;
+      document.getElementById('ss-out').innerHTML=`<div class="scoresheet"><div style="text-align:center;margin-bottom:8px"><img src="images/logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div><h4>A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</h4><div class="ss-sub">P.O. BOX 526-60100 EMBU<br>Motto: EDUCATION FOR EXCELLENCE<br>${cls} (${getLevelLabel(cls)}) | ${exam} | ${term} ${year}</div><table><thead><tr><th>Pos</th><th>Learner Name</th>${levelSubjects.map(s=>`<th>${s.code}</th>`).join('')}<th>Total/${levelSubjects.length*100}</th><th>Mean</th><th>Grade</th></tr></thead><tbody>${ranked.map(r=>{const g=getGrade(r.mean);return`<tr><td><span class="pos-badge">${r.position}</span></td><td style="text-transform:uppercase;font-weight:600">${r.first_name} ${r.last_name}</td>${levelSubjects.map(s=>{const n=Number(r[s.col]);return `<td>${Number.isFinite(n)?(Number.isInteger(n)?n:n.toFixed(1)):'-'}</td>`}).join('')}<td style="font-weight:700">${r.total}</td><td>${r.mean}%</td><td><span class="grade-badge ${g.cls}">${g.code}</span></td></tr>`}).join('')}<tr class="mean-row"><td></td><td style="text-align:left">SUBJECT MEAN</td>${subMeans.map(m=>`<td>${m}</td>`).join('')}<td></td><td></td><td></td></tr></tbody></table>${officialSignHtml()}<div class="form-actions" style="margin-top:16px;justify-content:flex-end"><button class="btn btn-secondary" id="ss-print-btn">Print</button><button class="btn btn-primary" id="ss-pdf-btn">Download PDF</button></div></div>`;
       document.getElementById('ss-print-btn').addEventListener('click',()=>window.print());
       document.getElementById('ss-pdf-btn').addEventListener('click',async()=>{
         try{
@@ -1632,7 +1877,7 @@ function renderScoresheet(el){
 
     // Preview blank sheet on page
     const emptyCells=levelSubjects.map(()=>'<td></td>').join('');
-    document.getElementById('ss-out').innerHTML=`<div class="scoresheet"><div style="text-align:center;margin-bottom:8px"><img src="/images/logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div><h4>A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</h4><div class="ss-sub">P.O. BOX 526-60100 EMBU<br>Motto: EDUCATION FOR EXCELLENCE<br><strong>BLANK SCORE SHEET</strong><br>${cls} (${getLevelLabel(cls)}) | ${exam} | ${term} ${year}<br>Total learners: ${list.length}</div><table><thead><tr><th>#</th><th>Learner Name</th>${levelSubjects.map(s=>`<th>${s.code}</th>`).join('')}<th>Total</th><th>Mean</th><th>Grade</th></tr></thead><tbody>${list.map((l,i)=>`<tr><td>${i+1}</td><td style="text-transform:uppercase;font-weight:600">${l.first_name} ${l.last_name}</td>${emptyCells}<td></td><td></td><td></td></tr>`).join('')}</tbody></table>${officialSignHtml()}<div class="form-actions" style="margin-top:16px;justify-content:flex-end"><button class="btn btn-secondary" id="ss-blank-print">Print</button><button class="btn btn-primary" id="ss-blank-pdf">Download blank PDF</button></div></div>`;
+    document.getElementById('ss-out').innerHTML=`<div class="scoresheet"><div style="text-align:center;margin-bottom:8px"><img src="images/logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div><h4>A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</h4><div class="ss-sub">P.O. BOX 526-60100 EMBU<br>Motto: EDUCATION FOR EXCELLENCE<br><strong>BLANK SCORE SHEET</strong><br>${cls} (${getLevelLabel(cls)}) | ${exam} | ${term} ${year}<br>Total learners: ${list.length}</div><table><thead><tr><th>#</th><th>Learner Name</th>${levelSubjects.map(s=>`<th>${s.code}</th>`).join('')}<th>Total</th><th>Mean</th><th>Grade</th></tr></thead><tbody>${list.map((l,i)=>`<tr><td>${i+1}</td><td style="text-transform:uppercase;font-weight:600">${l.first_name} ${l.last_name}</td>${emptyCells}<td></td><td></td><td></td></tr>`).join('')}</tbody></table>${officialSignHtml()}<div class="form-actions" style="margin-top:16px;justify-content:flex-end"><button class="btn btn-secondary" id="ss-blank-print">Print</button><button class="btn btn-primary" id="ss-blank-pdf">Download blank PDF</button></div></div>`;
 
     document.getElementById('ss-blank-print').addEventListener('click',()=>window.print());
     document.getElementById('ss-blank-pdf').addEventListener('click',async()=>{
@@ -1793,7 +2038,7 @@ function renderReportPreview(data){
     return `<tr><td style="font-weight:500">${r.name}</td><td style="font-weight:600">${r.code}</td>${scoreCells}<td><span class="grade-badge ${r.gradeCls}">${r.gradeCode}</span></td><td style="font-size:0.75rem">${r.remark}</td></tr>`;
   }).join('');
   const totalCells=examCols.map(g=>`<td>${g&&g.total!=null?g.total:'-'}</td>`).join('');
-  document.getElementById('rp-out').innerHTML=`<div class="report-card"><div class="report-header"><img src="/images/logo.png" alt="Logo" style="width:70px;height:70px;object-fit:contain;display:block;margin:0 auto 8px"><div class="school-name">A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</div><p style="font-size:1rem;font-weight:700;margin:4px 0">P.O. BOX 526-60100 EMBU</p><p style="font-size:0.95rem;font-weight:700;font-style:italic;color:var(--primary)">Motto: EDUCATION FOR EXCELLENCE</p><h3>LEARNER'S PROGRESS REPORT</h3><p>${exam} | ${term} ${year}</p></div>
+  document.getElementById('rp-out').innerHTML=`<div class="report-card"><div class="report-header"><img src="images/logo.png" alt="Logo" style="width:70px;height:70px;object-fit:contain;display:block;margin:0 auto 8px"><div class="school-name">A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</div><p style="font-size:1rem;font-weight:700;margin:4px 0">P.O. BOX 526-60100 EMBU</p><p style="font-size:0.95rem;font-weight:700;font-style:italic;color:var(--primary)">Motto: EDUCATION FOR EXCELLENCE</p><h3>LEARNER'S PROGRESS REPORT</h3><p>${exam} | ${term} ${year}</p></div>
   <div class="report-info" style="align-items:center"><div style="grid-column:1/-1;display:flex;align-items:center;gap:16px;margin-bottom:4px">${photoHtml}<div><div class="ri-label">Learner</div><div class="ri-value" style="font-size:1.05rem">${(learner.first_name+' '+learner.last_name).toUpperCase()}</div></div></div>
   <div><div class="ri-label">Kemis No</div><div class="ri-value" style="font-size:1rem">${learner.upi}</div></div>
   <div><div class="ri-label">Class</div><div class="ri-value" style="font-size:1rem">${learner.class}</div></div>
@@ -1980,7 +2225,7 @@ function renderClasslist(el){
   document.getElementById('gen-cl').addEventListener('click',()=>{
     const cls=document.getElementById('cl-cl').value;if(!cls){toast('Select class');return}
     const list=learnersCache.filter(l=>l.class===cls&&!isAlumni(l)).sort((a,b)=>(a.first_name+' '+a.last_name).localeCompare(b.first_name+' '+b.last_name));
-    document.getElementById('cl-out').innerHTML=`<div class="classlist-print"><div style="text-align:center;margin-bottom:8px"><img src="/images/logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div><div class="school-info">A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</div><p style="text-align:center;font-size:1rem;font-weight:700;margin:2px 0">P.O. BOX 526-60100 EMBU</p><p style="text-align:center;font-size:0.95rem;font-weight:700;font-style:italic;color:var(--primary);margin-bottom:8px">Motto: EDUCATION FOR EXCELLENCE</p><h4>${cls} CLASS LIST (${getLevelLabel(cls).toUpperCase()})</h4><p style="text-align:center;font-size:0.82rem;color:var(--text-secondary);margin-bottom:14px">Total: ${list.length}</p><table class="classlist-table" style="width:100%;border-collapse:collapse;border:1px solid #c8e0d0"><thead><tr><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff;text-align:center">#</th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff">Kemis No</th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff">Learner Name</th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff"></th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff"></th></tr></thead><tbody>${list.length?list.map((l,i)=>`<tr><td style="border:1px solid #c8e0d0;padding:8px;text-align:center">${i+1}</td><td style="border:1px solid #c8e0d0;padding:8px">${l.upi}</td><td style="border:1px solid #c8e0d0;padding:8px;text-transform:uppercase;font-weight:600">${l.first_name} ${l.last_name}</td><td style="border:1px solid #c8e0d0;padding:8px;min-width:120px"></td><td style="border:1px solid #c8e0d0;padding:8px;min-width:100px"></td></tr>`).join(''):'<tr><td colspan="5" class="empty-msg" style="border:1px solid #c8e0d0;padding:16px">No learners</td></tr>'}</tbody></table>${officialSignHtml()}<div class="form-actions" style="margin-top:14px;justify-content:flex-end"><button class="btn btn-secondary" id="cl-print-btn">Print</button><button class="btn btn-primary" id="cl-pdf-btn">Download PDF</button></div></div>`;
+    document.getElementById('cl-out').innerHTML=`<div class="classlist-print"><div style="text-align:center;margin-bottom:8px"><img src="images/logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div><div class="school-info">A.C.K KAGUMORI PRIMARY AND JUNIOR SCHOOL</div><p style="text-align:center;font-size:1rem;font-weight:700;margin:2px 0">P.O. BOX 526-60100 EMBU</p><p style="text-align:center;font-size:0.95rem;font-weight:700;font-style:italic;color:var(--primary);margin-bottom:8px">Motto: EDUCATION FOR EXCELLENCE</p><h4>${cls} CLASS LIST (${getLevelLabel(cls).toUpperCase()})</h4><p style="text-align:center;font-size:0.82rem;color:var(--text-secondary);margin-bottom:14px">Total: ${list.length}</p><table class="classlist-table" style="width:100%;border-collapse:collapse;border:1px solid #c8e0d0"><thead><tr><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff;text-align:center">#</th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff">Kemis No</th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff">Learner Name</th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff"></th><th style="border:1px solid #c8e0d0;padding:8px;background:#1a6b3c;color:#fff"></th></tr></thead><tbody>${list.length?list.map((l,i)=>`<tr><td style="border:1px solid #c8e0d0;padding:8px;text-align:center">${i+1}</td><td style="border:1px solid #c8e0d0;padding:8px">${l.upi}</td><td style="border:1px solid #c8e0d0;padding:8px;text-transform:uppercase;font-weight:600">${l.first_name} ${l.last_name}</td><td style="border:1px solid #c8e0d0;padding:8px;min-width:120px"></td><td style="border:1px solid #c8e0d0;padding:8px;min-width:100px"></td></tr>`).join(''):'<tr><td colspan="5" class="empty-msg" style="border:1px solid #c8e0d0;padding:16px">No learners</td></tr>'}</tbody></table>${officialSignHtml()}<div class="form-actions" style="margin-top:14px;justify-content:flex-end"><button class="btn btn-secondary" id="cl-print-btn">Print</button><button class="btn btn-primary" id="cl-pdf-btn">Download PDF</button></div></div>`;
     document.getElementById('cl-print-btn').addEventListener('click',()=>window.print());
     document.getElementById('cl-pdf-btn').addEventListener('click',async()=>{
       if(!list.length){toast('No learners to export');return}
@@ -2023,27 +2268,37 @@ function teacherInitials(t){
   return ((a+b)||(t.name||'?').charAt(0)).toUpperCase();
 }
 function normalizeLearningAreas(areas){
-  if(!areas||!areas.length)return[{name:'',class:''}];
-  return areas.map(a=>typeof a==='string'?{name:a,class:''}:{name:a.name||'',class:a.class||''});
+  if(!areas||!areas.length)return[{name:'',class:'',code:''}];
+  return areas.map(a=>typeof a==='string'?{name:a,class:'',code:''}:{name:a.name||'',class:a.class||'',code:a.code||''});
+}
+function subjectOptionsHtml(levelKey, selectedName){
+  const subs=getSubjectsForLevelKey(levelKey||'jss');
+  return `<option value="">Select learning area</option>`+subs.map(s=>{
+    const sel=(selectedName&&(selectedName===s.name||selectedName===s.code))?'selected':'';
+    return `<option value="${s.name}" data-code="${s.code}" data-col="${s.col}" ${sel}>${s.name}</option>`;
+  }).join('');
+}
+function classOptionsForLevelHtml(levelKey, selectedClass){
+  const classes=classesForLevelKey(levelKey||'jss');
+  return `<option value="">Class taught</option>`+classes.map(c=>`<option value="${c}" ${selectedClass===c?'selected':''}>${c}</option>`).join('');
 }
 function teacherFormHtml(t, opts){
   const isEdit=!!t;
   const mode=opts&&opts.mode?opts.mode:(isEdit?'edit':'add'); // add | edit | view
   const readOnly=mode==='view';
   const areas=normalizeLearningAreas(t&&t.learningAreas);
-  const classOptsHtml=ALL_CLASSES.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const teachLevel=(t&&(t.teaching_level||t.teachingLevel))||'jss';
   const areasHtml=areas.map((a,i)=>{
-    const opts=ALL_CLASSES.map(c=>`<option value="${c}" ${a.class===c?'selected':''}>${c}</option>`).join('');
     return `<div class="la-row" style="display:flex;gap:8px;margin-bottom:8px;align-items:center;flex-wrap:wrap">
-      <input class="la-input" value="${(a.name||'').replace(/"/g,'&quot;')}" maxlength="20" placeholder="Learning area" ${readOnly?'readonly':''} style="flex:1;min-width:140px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:0.85rem">
-      <select class="la-class" ${readOnly?'disabled':''}><option value="">Class taught</option>${opts}</select>
+      <select class="la-input la-subject" ${readOnly?'disabled':''} style="flex:1;min-width:160px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:0.85rem">${subjectOptionsHtml(teachLevel,a.name)}</select>
+      <select class="la-class" ${readOnly?'disabled':''}>${classOptionsForLevelHtml(teachLevel,a.class)}</select>
       ${readOnly?'':`<button type="button" class="btn btn-sm btn-danger la-remove" ${areas.length<=1?'disabled':''}>Remove</button>`}
     </div>`;
   }).join('');
   const disabled=readOnly?'disabled':'';
   const title=mode==='view'?'Teacher Profile':(isEdit?'Edit Teacher':'Add Teacher');
   return `<h3>${title}</h3>
-  ${mode==='view'?`<div class="teacher-detail-hero"><div class="big-avatar">${teacherInitials(t)}</div><div><div style="font-size:1.2rem;font-weight:700">${t.name||[t.first_name,t.middle_name,t.surname].filter(Boolean).join(' ')}</div><div style="font-size:0.85rem;color:var(--text-muted);margin-top:4px">TSC ${t.tsc_no||'-'} · ${t.gender||''}</div></div></div>`:''}
+  ${mode==='view'?`<div class="teacher-detail-hero"><div class="big-avatar">${teacherInitials(t)}</div><div><div style="font-size:1.2rem;font-weight:700;color:#fff">${t.name||[t.first_name,t.middle_name,t.surname].filter(Boolean).join(' ')}</div><div class="t-meta" style="font-size:0.85rem;margin-top:4px">TSC ${t.tsc_no||'-'} · ${t.gender||''}</div><div class="t-meta" style="font-size:0.8rem;margin-top:6px">${t.education_level?('Education: '+t.education_level):''}${t.subject_combination?(' · '+t.subject_combination):''}</div><div class="t-meta" style="font-size:0.75rem;margin-top:4px;opacity:0.9">Login: ${t.email||''} · password = TSC No</div></div></div>`:''}
   <div class="form-grid" style="margin-bottom:8px">
     <div class="form-group"><label>First Name *</label><input id="t-fn" value="${t?t.first_name||'':''}" ${disabled}></div>
     <div class="form-group"><label>Middle Name</label><input id="t-mn" value="${t?t.middle_name||'':''}" ${disabled}></div>
@@ -2057,13 +2312,31 @@ function teacherFormHtml(t, opts){
     <div class="form-group"><label>Date of Birth *</label><input id="t-dob" type="date" value="${t&&t.date_of_birth?String(t.date_of_birth).slice(0,10):''}" ${disabled}></div>
     <div class="form-group"><label>Date Joined School *</label><input id="t-joined" type="date" value="${t&&t.date_joined?String(t.date_joined).slice(0,10):''}" ${disabled}></div>
     <div class="form-group"><label>Bank Account No (optional, digits only)</label><input id="t-bank" inputmode="numeric" placeholder="Optional" value="${t?t.bank_acc_no||'':''}" ${disabled}></div>
+    <div class="form-group"><label>Level of education *</label>
+      <select id="t-edu" ${disabled}>
+        <option value="">Select...</option>
+        ${['ECDE','P1','Diploma','Degree','Masters'].map(e=>`<option value="${e}" ${t&&t.education_level===e?'selected':''}>${e}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group"><label>Level taught *</label>
+      <select id="t-teach-level" ${disabled}>
+        <option value="">Select level...</option>
+        <option value="pp" ${teachLevel==='pp'?'selected':''}>Pre-Primary (PP1–PP2)</option>
+        <option value="lower" ${teachLevel==='lower'?'selected':''}>Lower Primary (G1–G3)</option>
+        <option value="upper" ${teachLevel==='upper'?'selected':''}>Upper Primary (G4–G6)</option>
+        <option value="jss" ${teachLevel==='jss'?'selected':''}>J.S.S (G7–G9)</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Subject combination (optional)</label>
+      <input id="t-subj-comb" placeholder="e.g. Math / Science" value="${t&&t.subject_combination?(t.subject_combination||'').replace(/"/g,'&quot;'):''}" ${disabled}>
+    </div>
   </div>
   <div class="form-group" style="margin-bottom:12px"><label>Roles assigned</label><textarea id="t-roles" rows="2" ${disabled} style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:inherit;font-size:0.85rem;resize:vertical">${t?t.roles||'':''}</textarea></div>
   <div class="form-group" style="margin-bottom:12px">
     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="t-class-teacher" ${t&&t.isClassTeacher?'checked':''} ${disabled}> This teacher is a Class Teacher</label>
   </div>
   <div class="form-group" id="t-class-wrap" style="margin-bottom:12px;display:${t&&t.isClassTeacher?'':'none'}"><label>Class assigned *</label><select id="t-class" ${disabled}><option value="">Select class</option>${ALL_CLASSES.map(c=>`<option value="${c}" ${t&&t.assigned_class===c?'selected':''}>${c}</option>`).join('')}</select></div>
-  <div class="form-group" style="margin-bottom:8px"><label>Learning areas taught * (1–9) — each with the class taught</label>
+  <div class="form-group" style="margin-bottom:8px"><label>Learning areas taught * (1–9) — select subject &amp; class for the level taught</label>
     <div id="la-list">${areasHtml}</div>
     ${readOnly?'':`<button type="button" class="btn btn-sm btn-secondary" id="la-add" style="margin-top:4px">+ Add learning area</button>`}
   </div>
@@ -2081,15 +2354,35 @@ function bindTeacherForm(editId, teachersList){
       document.getElementById('t-class-wrap').style.display=e.target.checked?'':'none';
     });
   }
+  function refreshLaOptions(){
+    const level=document.getElementById('t-teach-level')?.value||'jss';
+    laList.querySelectorAll('.la-row').forEach(row=>{
+      const subj=row.querySelector('.la-subject')||row.querySelector('.la-input');
+      const cls=row.querySelector('.la-class');
+      const prevName=subj?(subj.value||''):'';
+      const prevClass=cls?(cls.value||''):'';
+      if(subj&&subj.tagName==='SELECT'){
+        subj.innerHTML=subjectOptionsHtml(level, prevName);
+      }
+      if(cls){
+        cls.innerHTML=classOptionsForLevelHtml(level, prevClass);
+      }
+    });
+  }
+  const teachLevelEl=document.getElementById('t-teach-level');
+  if(teachLevelEl){
+    teachLevelEl.addEventListener('change',refreshLaOptions);
+  }
   const addBtn=document.getElementById('la-add');
   if(addBtn){
     addBtn.addEventListener('click',()=>{
       const rows=laList.querySelectorAll('.la-row');
       if(rows.length>=9){toast('Maximum 9 learning areas');return}
+      const level=document.getElementById('t-teach-level')?.value||'jss';
       const div=document.createElement('div');
       div.className='la-row';
       div.style.cssText='display:flex;gap:8px;margin-bottom:8px;align-items:center;flex-wrap:wrap';
-      div.innerHTML=`<input class="la-input" maxlength="20" placeholder="Learning area" style="flex:1;min-width:140px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:0.85rem"><select class="la-class"><option value="">Class taught</option>${ALL_CLASSES.map(c=>`<option value="${c}">${c}</option>`).join('')}</select><button type="button" class="btn btn-sm btn-danger la-remove">Remove</button>`;
+      div.innerHTML=`<select class="la-input la-subject" style="flex:1;min-width:160px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-size:0.85rem">${subjectOptionsHtml(level,'')}</select><select class="la-class">${classOptionsForLevelHtml(level,'')}</select><button type="button" class="btn btn-sm btn-danger la-remove">Remove</button>`;
       laList.appendChild(div);
       bindLaRemove();
     });
@@ -2108,10 +2401,16 @@ function bindTeacherForm(editId, teachersList){
     saveBtn.addEventListener('click',async()=>{
       const modal=document.getElementById('modal-content');
       showFormAlert(modal,'');
-      const learningAreas=[...laList.querySelectorAll('.la-row')].map(row=>({
-        name:(row.querySelector('.la-input')?.value||'').trim(),
-        class:(row.querySelector('.la-class')?.value||'')
-      }));
+      const learningAreas=[...laList.querySelectorAll('.la-row')].map(row=>{
+        const subj=row.querySelector('.la-subject')||row.querySelector('.la-input');
+        const opt=subj&&subj.selectedOptions?subj.selectedOptions[0]:null;
+        return{
+          name:(subj?.value||'').trim(),
+          code:opt?.dataset?.code||'',
+          col:opt?.dataset?.col||'',
+          class:(row.querySelector('.la-class')?.value||'')
+        };
+      });
       const body={
         firstName:document.getElementById('t-fn').value.trim(),
         middleName:document.getElementById('t-mn').value.trim(),
@@ -2125,6 +2424,9 @@ function bindTeacherForm(editId, teachersList){
         dateJoined:document.getElementById('t-joined').value.trim(),
         bankAccNo:document.getElementById('t-bank').value.trim(),
         gender:document.getElementById('t-gender').value,
+        educationLevel:document.getElementById('t-edu')?document.getElementById('t-edu').value:'',
+        teachingLevel:document.getElementById('t-teach-level')?document.getElementById('t-teach-level').value:'',
+        subjectCombination:document.getElementById('t-subj-comb')?document.getElementById('t-subj-comb').value.trim():'',
         roles:document.getElementById('t-roles').value.trim(),
         isClassTeacher:document.getElementById('t-class-teacher').checked,
         assignedClass:document.getElementById('t-class').value||null,
@@ -2150,6 +2452,8 @@ function bindTeacherForm(editId, teachersList){
       if(!body.dateJoined)msgs.push('Date joined the school is required');
       if(body.bankAccNo&&!/^\d+$/.test(body.bankAccNo))msgs.push('Bank account number must be digits only');
       if(!body.gender)msgs.push('Gender is required');
+      if(!body.educationLevel)msgs.push('Level of education is required');
+      if(!body.teachingLevel)msgs.push('Level taught is required');
       if(!body.learningAreas.length)msgs.push('Add at least one learning area');
       if(body.learningAreas.length>9)msgs.push('Maximum 9 learning areas');
       learningAreas.forEach((a,i)=>{
@@ -2190,12 +2494,23 @@ function bindTeacherForm(editId, teachersList){
         if(editId){
           await api('/api/teachers/'+editId,{method:'PUT',body});
           toast('Teacher updated successfully');
+          hideModal();
+          renderTeachers(document.getElementById('main-content'));
         }else{
-          await api('/api/teachers',{method:'POST',body});
-          toast('Teacher added successfully');
+          const res=await api('/api/teachers',{method:'POST',body});
+          hideModal();
+          if(res&&res.needsReLogin){
+            toast(res.message||'Teacher added — sign in again as admin');
+            sessionStorage.removeItem('kagumori_session');
+            currentUser=null;
+            document.getElementById('app').classList.remove('visible');
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('login-error').textContent='Teacher account created. Sign in again as administrator.';
+          }else{
+            toast((res&&res.message)||'Teacher added successfully');
+            renderTeachers(document.getElementById('main-content'));
+          }
         }
-        hideModal();
-        renderTeachers(document.getElementById('main-content'));
       }catch(e){
         showFormAlert(modal,e.message||'Could not save teacher');
         toast(e.message);
@@ -2232,8 +2547,9 @@ async function renderTeachers(el){
         <div class="teacher-avatar">${teacherInitials(t)}</div>
         <div class="teacher-card-meta">
           <div class="t-name">${displayName}</div>
-          <div class="t-sub">${t.tsc_no?('TSC '+t.tsc_no):''}${t.isClassTeacher?' · Class teacher '+(t.assigned_class||''):''}</div>
+          <div class="t-sub">${t.tsc_no?('TSC '+t.tsc_no):''}${t.education_level?(' · '+t.education_level):''}${t.isClassTeacher?' · Class teacher '+(t.assigned_class||''):''}</div>
           <div class="t-sub" style="margin-top:2px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${areas}</div>
+          ${t.subject_combination?`<div class="t-sub" style="margin-top:2px;color:#7b1fa2">${t.subject_combination}</div>`:''}
         </div>
         <button class="btn btn-sm btn-primary" data-view="${t.id}">View</button>
         <button class="btn btn-sm btn-danger" data-del="${t.id}">Del</button>
