@@ -13,9 +13,8 @@
     console.error('Supabase client or config missing. Load config.js and supabase-js first.');
   }
 
-  // Auth tokens stay in localStorage so refresh tokens can renew while the tab is open.
-  // The UI "am I signed in?" flag is sessionStorage-only (see index.html setSessionFlag):
-  // closing the tab requires login again even if tokens remain until explicit Sign Out.
+  // Auth tokens stay in sessionStorage so the session is cleared when the tab/window closes.
+  // The UI session flag is also sessionStorage-only, so a closed tab requires a fresh sign-in.
   const sb = global.supabase.createClient(
     global.SUPABASE_URL,
     global.SUPABASE_ANON_KEY,
@@ -24,7 +23,7 @@
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        storage: global.localStorage
+        storage: global.sessionStorage || global.localStorage
       }
     }
   );
@@ -169,7 +168,7 @@
     client: sb,
 
     async login(usernameOrEmail, password) {
-      // Admin: email + password. Teacher: email + TSC No as password.
+      // Admin and teacher users sign in with their registered email and password.
       let email = String(usernameOrEmail || '').trim();
       if (!email) throw new Error('Email is required');
       if (!email.includes('@')) {
@@ -557,7 +556,7 @@
       await requireSession();
       const row = mapTeacherBody(body);
       if (!row.email) throw new Error('Email is required for teacher login');
-      if (!row.tsc_no) throw new Error('TSC No is required (used as login password)');
+      if (!row.tsc_no) throw new Error('TSC No is required');
       validateTeacherLearningAreas(row.learning_areas);
       const { data: exist } = await sb.from('teachers').select('id').eq('tsc_no', row.tsc_no).maybeSingle();
       if (exist) throw new Error('TSC No already registered');
@@ -638,11 +637,11 @@
       return {
         message: needsConfirm
           ? (restored
-            ? 'Teacher added. Confirm their email in Supabase Auth → Users (or disable Confirm email), then they can sign in with email + TSC No.'
+            ? 'Teacher added. Confirm their email in Supabase Auth → Users (or disable Confirm email), then they can sign in with email + password.'
             : 'Teacher added. Confirm their email in Supabase Auth, then sign in again as admin.')
           : (restored
-            ? 'Teacher added. They sign in with email + TSC No as password.'
-            : 'Teacher added. Sign in again as admin. They use email + TSC No as password.'),
+            ? 'Teacher added. They sign in with email + password.'
+            : 'Teacher added. Sign in again as admin. They use email + password.'),
         needsReLogin: !restored
       };
     },
